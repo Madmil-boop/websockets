@@ -1,0 +1,31 @@
+import {StartWebServer} from '../../websockets/ioserver.js';
+const PORT = 3000;
+StartWebServer(PORT);
+console.log(`WebSocket server is running on ws://localhost:${PORT}`);
+
+import {server} from 'socket.io';
+const room = 3001;
+const io = new Server(room, {
+  cors: {
+    origin: "http://localhost:" + PORT,
+    methods: ["GET", "POST"]
+  }
+});
+io.on('connection', (socket) => {
+    let username = "";
+    socket.emit ('login', '');
+
+  socket.on('message', (message) => {
+    if(username = '' || username == null) {
+        socket.emit('login', '');
+    } else {
+        io.emit('message', {username: username, message: message});
+    }
+  });
+  
+  socket.on('login', (n) => {
+    username = n;
+
+  });
+});
+
